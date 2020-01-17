@@ -1,13 +1,18 @@
-import Vue from 'vue'
+import vue from 'vue'
 import Router from 'vue-router'
+import { routerMap } from './routes'
+
+//处理点击当前路由报错
+const routerPush = Router.prototype.push
+
+Router.prototype.push = function push(location) {
+  return routerPush.call(this, location).catch(error => error)
+}
 
 
-Vue.use(Router)
-
+vue.use(Router);
 export default new Router({
-  routes: [
-    {
-     
-    }
-  ]
+  mode:history,
+  base:process.env.BASE_URL,
+  routes:routerMap
 })
